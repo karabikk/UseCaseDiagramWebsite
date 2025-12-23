@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Use Case Diagram Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body class="dark">
+    <header class="topbar">
+      <div class="brand">Use-Case Diagram Generator</div>
+
+      <div class="dropdown" id="modelDropdown">
+        <button class="dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+          LLM (chatGPT) <span class="caret">▾</span>
+        </button>
+        <div class="dropdown-content" role="menu">
+          <h4>LLM</h4>
+
+          <label class="row">
+            <input type="radio" name="modeChoice" value="chatGPT" checked />
+            <div class="option">
+              <span class="title">chatGPT</span>
+              <span class="desc">OpenAI (chatGPT5)</span>
+            </div>
+          </label>
+          <label class="row">
+            <input type="radio" name="modeChoice" value="Gemini" />
+            <div class="option">
+              <span class="title">Gemini</span>
+              <span class="desc">Google (1.5 Pro)</span>
+            </div>
+          </label>
+          <label class="row">
+            <input type="radio" name="modeChoice" value="DeepSeek" />
+            <div class="option">
+              <span class="title">DeepSeek</span>
+              <span class="desc">---</span>
+            </div>
+          </label>
+
+          <label class="row disabled">
+            <input type="radio" name="modeChoice" value="Pro" disabled />
+            <div class="option">
+              <span class="title">**</span>
+              <span class="desc">-**</span>
+              <button class="upgrade-btn" type="button">**</button>
+            </div>
+          </label>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="card">
+        <div class="card-body">
+          <h1>Upload a file for Use Case Diagram</h1>
+
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              <div class="alert">{{ messages[0] }}</div>
+            {% endif %}
+          {% endwith %}
+
+          <form method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="mode" id="modeHidden" value="chatGPT" />
+
+            <div class="form-group">
+              <label>Your file</label>
+              <input type="file" name="csvfile"/>
+              <div class="note">Allowed: csv</div>
+            </div>
+
+            <div class="form-group">
+              <label>Paste Software Requirements</label>
+              <textarea name="userrequirements" rows="3"
+                placeholder="Please paste functional software requirements here"
+              ></textarea>
+            </div>
+
+            <button type="submit">Generate</button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='dropdown.js') }}"></script>
+  </body>
+</html>
